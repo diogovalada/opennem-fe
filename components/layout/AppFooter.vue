@@ -1,14 +1,18 @@
 <template>
   <footer class="">
     <div class="left">
-      <div class="version">
+      <div 
+        v-if="showFooterMeta" 
+        class="version">
         <span 
           v-if="isDev" 
           class="tag">DEV</span>
         <strong>v{{ version }}</strong>
       </div>
 
-      <div class="version">
+      <div 
+        v-if="showFooterMeta" 
+        class="version">
         <a 
           v-tooltip="'Open Electricity status page'" 
           rel="external" 
@@ -54,16 +58,22 @@
         Sources:
         <a 
           rel="external" 
-          href="https://www.aemo.com.au/" 
-          title="Link to AEMO">AEMO</a>,
-        <a 
-          rel="external" 
-          href="http://apvi.org.au/" 
-          title="Link to APVI">APVI</a>,
-        <a 
-          rel="external" 
-          href="http://www.bom.gov.au/" 
-          title="Link to BoM">BoM</a>
+          href="https://www.entsoe.eu/" 
+          title="Link to ENTSOe">ENTSOe</a>
+          <!-- Previous sources:
+          <a 
+            rel="external" 
+            href="https://www.aemo.com.au/" 
+            title="Link to AEMO">AEMO</a>,
+          <a 
+            rel="external" 
+            href="http://apvi.org.au/" 
+            title="Link to APVI">APVI</a>,
+          <a 
+            rel="external" 
+            href="http://www.bom.gov.au/" 
+            title="Link to BoM">BoM</a>
+          -->
       </div>
     </div>
 
@@ -156,6 +166,10 @@ export default {
 
     isEmissionsWorldRegion() {
       return this.$route.name === 'emissions-world'
+    },
+
+    showFooterMeta() {
+      return Boolean(this.$config.footerMetaEnabled)
     }
   },
 

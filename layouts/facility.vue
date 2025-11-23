@@ -24,6 +24,7 @@
     </h1> -->
 
     <article 
+      v-if="showNewsletterBanner"
       class="message" 
       style="background-color: black; border-radius: 0; position: relative; "
     >
@@ -61,7 +62,10 @@ export default {
   computed: {
     ...mapGetters({
       widthBreak: 'app/widthBreak'
-    })
+    }),
+    showNewsletterBanner() {
+      return Boolean(this.$config.newsletterBannerEnabled)
+    }
   },
 
   mounted() {

@@ -13,7 +13,9 @@ module.exports = {
     useDev,
     url: useDev // this is to get the right social media card images for prod and dev
       ? 'https://explore.openelectricity.org.au'
-      : 'https://explore.openelectricity.org.au'
+      : 'https://explore.openelectricity.org.au',
+    newsletterBannerEnabled: false,
+    footerMetaEnabled: false
   },
 
   env: {

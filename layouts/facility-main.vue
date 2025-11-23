@@ -51,6 +51,7 @@
     </article> -->
 
     <article 
+      v-if="showNewsletterBanner"
       class="message" 
       style="background-color: black; border-radius: 0; position: relative;"
     >
@@ -132,6 +133,9 @@ export default {
     },
     isAuOrWem() {
       return this.regionId === 'au' || this.regionId === 'wem'
+    },
+    showNewsletterBanner() {
+      return Boolean(this.$config.newsletterBannerEnabled)
     }
   },
 
