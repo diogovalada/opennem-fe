@@ -8,7 +8,7 @@
 
     <nav :class="{ active: mobileNavActive }">
       <a 
-        v-for="link in links" 
+        v-for="link in visibleLinks" 
         :key="link.name"
         :href="link.path"
         :class="{ active: checkActive(link.name) }">
@@ -43,20 +43,24 @@ const topLevelLinks = [
   },
   {
     name: 'Facilities',
-    path: '/facilities/nem/?status=operating'
+    path: '/facilities/nem/?status=operating',
+    enabled: false // hidden for now
   },
   {
     name: 'Scenarios',
-    path: 'https://openelectricity.org.au/scenarios'
+    path: 'https://openelectricity.org.au/scenarios',
+    enabled: false // hidden for now
   },
   {
     name: 'Records',
-    path: 'https://openelectricity.org.au/records'
+    path: 'https://openelectricity.org.au/records',
+    enabled: false // hidden for now
   },
   {
     name: 'Analysis',
     path: 'https://openelectricity.org.au/analysis',
-    active: false
+    active: false,
+    enabled: false // hidden for now
   },
   {
     name: 'About',
@@ -82,6 +86,10 @@ export default {
       isEnergyView: 'isEnergyView',
       isFacilitiesView: 'isFacilitiesView'
     }),
+    // Only show links explicitly enabled; keep disabled ones in source for future use.
+    visibleLinks() {
+      return this.links.filter((link) => link.enabled !== false);
+    },
     mobileNavActive: {
       get() {
         return this.$store.state.app.mobileNavActive;
@@ -191,6 +199,13 @@ nav {
       background-color: #c74523;
       opacity: 1;
     }*/
+  }
+
+  a.disabled {
+    color: #b3b3b3;
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
   }
 }
 
