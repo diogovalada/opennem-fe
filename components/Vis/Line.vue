@@ -457,10 +457,11 @@ export default {
   },
 
   mounted() {
-    window.addEventListener(
-      'resize',
-      debounce(this.handleResize, CONFIG.DEBOUNCE_MILLISECONDS)
+    this.debouncedResize = debounce(
+      this.handleResize,
+      CONFIG.DEBOUNCE_MILLISECONDS
     )
+    window.addEventListener('resize', this.debouncedResize)
 
     EventBus.$on('vis-resize', this.handleResize)
 
@@ -470,7 +471,7 @@ export default {
   },
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.debouncedResize)
     EventBus.$off('vis-resize', this.handleResize)
   },
 
@@ -955,6 +956,7 @@ export default {
 
     // Update vis when container is resized
     handleResize() {
+      if (!this.$el) return
       this.setupWidthHeight()
       this.resizeRedraw()
     },
