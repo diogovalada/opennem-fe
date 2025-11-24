@@ -77,10 +77,10 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-prettier": "2.6.2",
     "eslint-plugin-vue": "^4.0.0",
-    "node-sass": "^6.0.1",
     "nodemon": "^1.11.0",
     "prettier": "^2.7.1",
     "release-it": "^14.14.3",
+    "sass": "^1.94.2",
     "sass-loader": "^10.2.1"
   },
   "release-it": {
@@ -92,7 +92,7 @@
     }
   },
   "volta": {
-    "node": "14.21.3",
+    "node": "22.21.1",
     "yarn": "1.22.22"
   }
 }

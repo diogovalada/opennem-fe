@@ -315,6 +315,14 @@ module.exports = {
      */
     // publicPath: `/nuxt_${timestamp}/`,
     publicPath: `/js/`,
+    loaders: {
+      scss: {
+        sassOptions: {
+          quietDeps: true,
+          silenceDeprecations: ['import', 'legacy-js-api', 'slash-div', 'color-functions', 'global-builtin']
+        }
+      }
+    },
     plugins: [
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
