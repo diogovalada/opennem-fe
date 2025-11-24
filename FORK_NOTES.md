@@ -7,6 +7,7 @@ Short log of changes diverging from upstream. Keep this file updated when adding
 - Footer meta (version/dev docs/API): hidden by default via `publicRuntimeConfig.footerMetaEnabled` (see `components/layout/AppFooter.vue`, `nuxt.config.js`).
 - Footer sources: hardcoded to ENTSOe with prior AEMO/APVI/BoM links left commented in `components/layout/AppFooter.vue`.
 - Navigation: Facilities, Scenarios, Records, and Analysis links hidden in header (set `enabled: false` in `components/layout/NewAppHeader.vue` but left in source for future use). Requests to these sections redirect to `/energy` via `middleware/disabled-sections.js` (registered globally in `nuxt.config.js`).
+- Routing: catch-all page canonicalizes missing trailing slashes (`/path` → `/path/` with query/hash preserved); `nuxt.config.js` router config merged so `disabled-sections` middleware runs alongside `base`/`trailingSlash`.
 
 ## Notes
 - Keep these changes minimal to reduce merge conflicts with upstream; prefer flags over deletions.
