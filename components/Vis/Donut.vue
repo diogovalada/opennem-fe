@@ -234,7 +234,8 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('resize', _debounce(this.handleResize, 10))
+    this.debouncedResize = _debounce(this.handleResize, 10)
+    window.addEventListener('resize', this.debouncedResize)
     EventBus.$on('vis-resize', this.handleResize)
     this.setupWidthHeight()
     this.setup()
@@ -242,7 +243,7 @@ export default {
   },
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.debouncedResize)
     EventBus.$off('vis-resize', this.handleResize)
   },
 
@@ -257,6 +258,7 @@ export default {
     },
 
     handleResize() {
+      if (!this.$el) return
       this.setupWidthHeight()
       this.update()
     },
