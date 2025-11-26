@@ -63,8 +63,9 @@ const topLevelLinks = [
     enabled: false // hidden for now
   },
   {
-    name: 'About',
-    path: 'https://openelectricity.org.au/about'
+    name: 'About/Metholodology',
+    // path: 'https://openelectricity.org.au/about'
+    path: '/about/'
   }
 ];
 
