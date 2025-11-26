@@ -365,6 +365,15 @@
           </p>
         </div>
       </section>
+
+      <h2>Acknowledgements</h2>
+      <p class="team-note">
+        This website was forked from the excellent <a
+          href="https://openelectricity.org.au/"
+          target="_blank"
+          rel="external"
+        >OpenElectricity</a> website developed for the Australian electricity system.
+      </p>
     </section>
 
     <!-- <div class="sponsors">
@@ -706,6 +715,13 @@ ul.feature-list {
     line-height: 1.6;
   }
 
+  .note {
+    margin-top: 1rem;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
   .links {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -732,5 +748,14 @@ ul.feature-list {
       }
     }
   }
+}
+
+.team-note {
+  margin: 1rem auto 0;
+  max-width: 700px;
+  color: #2c3e50;
+  font-size: 1rem;
+  text-align: left;
+  line-height: 1.6;
 }
 </style>
