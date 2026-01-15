@@ -47,7 +47,7 @@ export default {
     },
     interval: {
       type: String,
-      default: '30m'
+      default: '1h'
     }
   },
 
@@ -69,12 +69,8 @@ export default {
       ],
       intervals: [
         {
-          label: '5m',
-          value: '5m'
-        },
-        {
-          label: '30m',
-          value: '30m'
+          label: '1h',
+          value: '1h'
         }
       ]
     }

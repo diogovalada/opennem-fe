@@ -67,7 +67,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import { RANGES, RANGE_INTERVALS } from '@/constants/ranges.js'
-import { GROUP_LABEL } from '@/constants/energy-fuel-techs/group-detailed.js'
+import { GROUP_LABEL } from '@/constants/energy-fuel-techs/group-psr.js'
 
 import DataOptionsBar from '@/components/Energy/DataOptionsBar.vue'
 import DataOptionsBarTimeOfDay from '~/components/Energy/DataOptionsBarTimeOfDay.vue'
@@ -159,22 +159,22 @@ export default {
         // if it's not 28D, switch to 28D and and then set view
         if (this.range !== '28D') {
           this.setRange('28D')
-          this.setInterval('30m')
-          this.handleQueryChange({ range: '28d', interval: '30m' })
+          this.setInterval('1h')
+          this.handleQueryChange({ range: '28d', interval: '1h' })
         }  else {
-          this.handleQueryChange(this.query || { range: '28d', interval: '30m' })
+          this.handleQueryChange(this.query || { range: '28d', interval: '1h' })
         }
       } else {
 
         const query = {
           range: '7d',
-          interval: '30m'
+          interval: '1h'
         }
 
         this.setUseCachedData(false)
 
         this.setRange('7D')
-        this.setInterval('30m')
+        this.setInterval('1h')
         
         this.handleQueryChange(query)
       }

@@ -735,9 +735,9 @@ export default {
       const xDate = this.x(time)
       const nextPeriod = this.x(nextDatePeriod)
       const bandwidth =
-        this.interval !== '5m' && this.interval !== '30m'
-          ? nextPeriod - xDate
-          : null
+        ['5m', '15m', '30m', '1h'].includes(this.interval)
+          ? null
+          : nextPeriod - xDate
 
       if (find) {
         const dId = this.valueDomainId || this.domainId
@@ -781,9 +781,9 @@ export default {
       let yValue = null
       const nextPeriod = this.x(nextDatePeriod)
       const bandwidth =
-        this.interval !== '5m' && this.interval !== '30m'
-          ? nextPeriod - xDate
-          : null
+        ['5m', '15m', '30m', '1h'].includes(this.interval)
+          ? null
+          : nextPeriod - xDate
       const fTime = DateDisplay.specialDateFormats(
         new Date(date).getTime(),
         this.range,
@@ -865,9 +865,9 @@ export default {
       const xDate = this.x(time)
       const nextPeriod = this.x(nextDatePeriod)
       const bandwidth =
-        this.interval !== '5m' && this.interval !== '30m'
-          ? nextPeriod - xDate
-          : null
+        ['5m', '15m', '30m', '1h'].includes(this.interval)
+          ? null
+          : nextPeriod - xDate
 
       const $focusLine = this.$focusGroup.select(`.${this.focusLineClass}`)
       const $focusTopRect = this.$focusGroup.select(

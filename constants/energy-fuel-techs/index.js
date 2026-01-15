@@ -1,4 +1,5 @@
 import Domain from '@/services/Domain.js'
+import { PORTUGAL_ONLY } from '@/constants/energy-regions.js'
 import * as DetailedGroup from './group-detailed.js'
 import * as OldDetailedGroup from './group-detailed-old.js'
 import * as SimplifiedGroup from './group-simplified.js'
@@ -6,8 +7,10 @@ import * as FlexibilityGroup from './group-flexibility.js'
 import * as RenewableFossilGroup from './group-renewable-fossil.js'
 import * as CoalGasRenewablesGroup from './group-coal-gas-renewables.js'
 import * as VreResidualGroup from './group-vre-residual.js'
+import * as PsrGroup from './group-psr.js'
 
 export const GROUP_DETAILED = 'Detailed'
+export const GROUP_PSR = 'PSR'
 export const GROUP_OLD_DETAILED = 'Detailed (Prev)'
 export const GROUP_SIMPLIFIED = 'Simplified'
 export const GROUP_COAL_GAS_RENEWABLES = 'Coal/Gas/Renewables'
@@ -15,20 +18,30 @@ export const GROUP_FLEXIBILITY = 'Flexibility'
 export const GROUP_RENEWABLE_FOSSIL = 'Renewables/Fossils'
 export const GROUP_VRE_RESIDUAL = 'VRE/Residual'
 
-export const GROUP_DEFAULT = GROUP_DETAILED // default group is detailed
+export const GROUP_DEFAULT = PORTUGAL_ONLY ? GROUP_PSR : GROUP_DETAILED
 
 export const Groups = {}
-Groups[GROUP_DETAILED] = DetailedGroup // default group is just the root power/energy
-// Groups[GROUP_OLD_DETAILED] = OldDetailedGroup // default group is just the root power/energy
-Groups[GROUP_SIMPLIFIED] = SimplifiedGroup
-Groups[GROUP_COAL_GAS_RENEWABLES] = CoalGasRenewablesGroup
-Groups[GROUP_FLEXIBILITY] = FlexibilityGroup
-Groups[GROUP_RENEWABLE_FOSSIL] = RenewableFossilGroup
-Groups[GROUP_VRE_RESIDUAL] = VreResidualGroup
+if (PORTUGAL_ONLY) {
+  Groups[GROUP_PSR] = PsrGroup
+} else {
+  Groups[GROUP_DETAILED] = DetailedGroup // default group is just the root power/energy
+  // Groups[GROUP_OLD_DETAILED] = OldDetailedGroup // default group is just the root power/energy
+  Groups[GROUP_SIMPLIFIED] = SimplifiedGroup
+  Groups[GROUP_COAL_GAS_RENEWABLES] = CoalGasRenewablesGroup
+  Groups[GROUP_FLEXIBILITY] = FlexibilityGroup
+  Groups[GROUP_RENEWABLE_FOSSIL] = RenewableFossilGroup
+  Groups[GROUP_VRE_RESIDUAL] = VreResidualGroup
+}
 
 export const ftGroups = Object.keys(Groups)
 
 export function getAllGroups(powerEnergyDomains, type) {
+  if (PORTUGAL_ONLY) {
+    return {
+      [GROUP_PSR]: powerEnergyDomains
+    }
+  }
+
   const parsed = {}
   Object.keys(Groups).forEach((key) => {
     parsed[key] =

@@ -110,7 +110,7 @@ import _isEmpty from 'lodash.isempty'
 import _includes from 'lodash.includes'
 import _remove from 'lodash.remove'
 import _cloneDeep from 'lodash.clonedeep'
-import { GROUP_DETAILED } from '@/constants/energy-fuel-techs'
+import { GROUP_DEFAULT } from '@/constants/energy-fuel-techs'
 
 export default {
   props: {
@@ -341,7 +341,7 @@ export default {
 
     getAverageValue(ft) {
       const property =
-        this.fuelTechGroupName === GROUP_DETAILED ? 'fuelTech' : 'group'
+        this.fuelTechGroupName === GROUP_DEFAULT ? 'fuelTech' : 'group'
       const find = this.marketValueOrder.find(
         (d) => d[property] === ft[property]
       )
@@ -386,8 +386,14 @@ export default {
           }
 
           if (!this.showPointSummary) {
-            // if 5m, divide by 12, else assume 30m, divide by 2 to convert energy /hr to power
-            const time = this.interval === '5m' ? 12 : 2
+            const mins = this.interval === '1h'
+              ? 60
+              : this.interval === '30m'
+                ? 30
+                : this.interval === '15m'
+                  ? 15
+                  : 5
+            const time = 60 / mins
             ei = ei / time / 1000
           }
         }

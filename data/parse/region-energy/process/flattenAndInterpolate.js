@@ -77,6 +77,20 @@ const getTimeIndices = (start, end, intervalFunc) => {
   return obj
 }
 
+const getIntervalMinutes = (interval) => {
+  if (!interval) return null
+  if (interval.endsWith('m')) {
+    return parseInt(interval.replace('m', ''), 10)
+  }
+  if (interval.endsWith('h')) {
+    return parseInt(interval.replace('h', ''), 10) * 60
+  }
+  if (interval.endsWith('d')) {
+    return parseInt(interval.replace('d', ''), 10) * 24 * 60
+  }
+  return null
+}
+
 const getAllObj = (dataAll, dataInterval, displayTz, ignoreTime, prop) => {
   let allObj = null
   const { start, last } = getStartLastDates(
@@ -91,8 +105,16 @@ const getAllObj = (dataAll, dataInterval, displayTz, ignoreTime, prop) => {
       allObj = getMinuteTimeIndices(start, last, 5)
     }
 
+    if (dataInterval === '15m') {
+      allObj = getMinuteTimeIndices(start, last, 15)
+    }
+
     if (dataInterval === '30m') {
       allObj = getMinuteTimeIndices(start, last, 30)
+    }
+
+    if (dataInterval === '1h') {
+      allObj = getMinuteTimeIndices(start, last, 60)
     }
 
     if (dataInterval === '1d') {
@@ -129,8 +151,22 @@ const getAllObj = (dataAll, dataInterval, displayTz, ignoreTime, prop) => {
         updateAllObj(dMinsArr)
       }
 
+      if (dInterval === '15m') {
+        const dMinsObj = getMinuteTimeIndices(dStartDate, dLastDate, 15)
+        const dMinsArr = Object.keys(dMinsObj)
+
+        updateAllObj(dMinsArr)
+      }
+
       if (dInterval === '30m') {
         const dMinsObj = getMinuteTimeIndices(dStartDate, dLastDate, 30)
+        const dMinsArr = Object.keys(dMinsObj)
+
+        updateAllObj(dMinsArr)
+      }
+
+      if (dInterval === '1h') {
+        const dMinsObj = getMinuteTimeIndices(dStartDate, dLastDate, 60)
         const dMinsArr = Object.keys(dMinsObj)
 
         updateAllObj(dMinsArr)
@@ -236,9 +272,11 @@ export default function (isPowerData, dataInterval, dataAll, displayTz) {
     }})
 
     allArr.forEach((d) => {
+      const intervalMins = getIntervalMinutes(dataInterval) || 5
+      d._intervalMins = intervalMins
       let totalEnergy = 0
       powerIds.forEach(({id, fuelTech}) => {
-        d[`${id}_to_energy`] = d[id] * 5 / 60
+        d[`${id}_to_energy`] = d[id] * intervalMins / 60
 
         if (isLoad(fuelTech)) {
           d[`${id}_to_energy`] = -d[`${id}_to_energy`]

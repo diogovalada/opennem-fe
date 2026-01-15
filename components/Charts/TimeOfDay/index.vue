@@ -159,7 +159,10 @@ export default {
     },
     
     intervalVal() {
-      return this.interval === '5m' ? 5 : 30
+      if (this.interval === '1h') return 60
+      if (this.interval === '30m') return 30
+      if (this.interval === '15m') return 15
+      return 5
     },
 
     rangeVal() {

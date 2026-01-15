@@ -28,7 +28,8 @@ function reducer(a, domains) {
       // calculate energy and total energy values
       let totalEnergy = 0
       a.forEach((point) => {
-        point[toEnergyId] = point[id] * 5 / 60
+        const intervalMins = point._intervalMins || 5
+        point[toEnergyId] = point[id] * intervalMins / 60
         if (domain.category === 'load') {
           point[toEnergyId] = -point[toEnergyId]
         }

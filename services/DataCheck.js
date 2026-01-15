@@ -1,9 +1,11 @@
 import parseISO from 'date-fns/parseISO'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
+import differenceInHours from 'date-fns/differenceInHours'
 import differenceInDays from 'date-fns/differenceInDays'
 import differenceInMonths from 'date-fns/differenceInMonths'
 import differenceInQuarters from 'date-fns/differenceInQuarters'
 import addMinutes from 'date-fns/addMinutes'
+import addHours from 'date-fns/addHours'
 import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import addQuarters from 'date-fns/addQuarters'
@@ -82,6 +84,9 @@ export function checkHistoryObject(d, displayTz, ignoreTime) {
         case 'm':
           diff = differenceInMinutes(lastDateTime, startDateTime)
           break
+        case 'h':
+          diff = differenceInHours(lastDateTime, startDateTime)
+          break
         case 'd':
           diff = differenceInDays(lastDateTime, startDateTime)
           break
@@ -123,6 +128,8 @@ function getArrLength({
   switch (intervalKey) {
     case 'm':
       return differenceInMinutes(last, start) / intervalValue + plusCount
+    case 'h':
+      return differenceInHours(last, start) / intervalValue + plusCount
     case 'd':
       return differenceInDays(last, start) / intervalValue + 1
     case 'M':
@@ -170,6 +177,8 @@ export function incrementTime({ date, intervalKey, intervalValue }) {
   switch (intervalKey) {
     case 'm':
       return addMinutes(date, intervalValue)
+    case 'h':
+      return addHours(date, intervalValue)
     case 'd':
       return addDays(date, intervalValue)
     case 'M':

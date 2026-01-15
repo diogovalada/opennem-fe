@@ -52,11 +52,13 @@ export default function (data, displayTz) {
 
   const hasPriceMarketValue = dataPriceMarketValue.length > 0
 
-  const fuelTechIdTypes = getFuelTechInOrder(dataPowerEnergy)
+  const { ids: fuelTechIdTypes, group: fuelTechGroup } =
+    getFuelTechInOrder(dataPowerEnergy)
 
   const domainPowerEnergy = getFuelTechDomains(
     fuelTechIdTypes,
-    fuelTechDataType
+    fuelTechDataType,
+    fuelTechGroup
   )
 
   const domainCurtailment = getCurtailmentDomains(
@@ -65,8 +67,9 @@ export default function (data, displayTz) {
   )
 
   const domainEmissions = getFuelTechDomains(
-    getFuelTechInOrder(dataEmissions),
-    EMISSIONS
+    getFuelTechInOrder(dataEmissions).ids,
+    EMISSIONS,
+    fuelTechGroup
   )
 
   let domainMarketValue = [],
@@ -74,10 +77,15 @@ export default function (data, displayTz) {
 
   if (hasPriceMarketValue) {
     domainMarketValue = isPowerData
-      ? getFuelTechWithTypeDomains(fuelTechIdTypes, MARKET_VALUE)
+      ? getFuelTechWithTypeDomains(
+          fuelTechIdTypes,
+          MARKET_VALUE,
+          fuelTechGroup
+        )
       : getFuelTechDomains(
-          getFuelTechInOrder(dataPriceMarketValue),
-          MARKET_VALUE
+          getFuelTechInOrder(dataPriceMarketValue).ids,
+          MARKET_VALUE,
+          fuelTechGroup
         )
 
     domainPrice = isPowerData

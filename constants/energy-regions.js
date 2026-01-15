@@ -8,8 +8,20 @@ export const ENERGY_SA = 'sa1'
 export const ENERGY_TAS = 'tas1'
 export const ENERGY_VIC = 'vic1'
 export const ENERGY_WEM = 'wem'
+export const ENERGY_PT = 'pt'
+
+export const PORTUGAL_ONLY = true
+
+const PortugalRegion = {
+  id: ENERGY_PT,
+  abbr: 'PT',
+  label: 'Portugal',
+  colour: '#1F7A1F',
+  timezoneString: 'Europe/Lisbon'
+}
 
 const EnergyRegions = [
+  PortugalRegion,
   {
     id: ENERGY_AU,
     abbr: 'All',
@@ -76,10 +88,21 @@ const EnergyRegions = [
 ]
 
 export function getEnergyRegions() {
+  if (PORTUGAL_ONLY) {
+    return [PortugalRegion]
+  }
   return _cloneDeep(EnergyRegions)
 }
 
 export function getAuRegions() {
+  if (PORTUGAL_ONLY) {
+    return [PortugalRegion].map(d => {
+      return {
+        ...d,
+        domain: d.id
+      }
+    })
+  }
   return EnergyRegions.map(d => {
     return {
       ...d,
@@ -101,7 +124,9 @@ export function getEnergyRegionLabel(id) {
 }
 
 export function isValidRegion(id) {
-  // if (id === ENERGY_AU) return false
+  if (PORTUGAL_ONLY) {
+    return id === ENERGY_PT
+  }
   const find = EnergyRegions.find((r) => r.id === id)
   return find ? true : false
 }

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep'
 import { lsSet } from '~/services/LocalStorage'
-import * as FUEL_TECHS from '~/constants/energy-fuel-techs/group-detailed.js'
-import { ENERGY_NEM } from '@/constants/energy-regions.js'
+import * as FUEL_TECHS from '~/constants/energy-fuel-techs/group-psr.js'
+import { ENERGY_PT } from '@/constants/energy-regions.js'
 import { RANGE_ALL_12MTH_ROLLING } from '@/constants/ranges'
 import regionDisplayTzs from '@/constants/region-display-timezones.js'
 
@@ -34,7 +34,7 @@ export const state = () => ({
   compareDates: [],
   drawer: false,
 
-  displayTimeZone: regionDisplayTzs[ENERGY_NEM]
+  displayTimeZone: regionDisplayTzs[ENERGY_PT]
 })
 
 export const mutations = {

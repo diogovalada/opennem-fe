@@ -322,7 +322,7 @@ export default {
       })
     } else {
       this.$router.push({
-        params: { region: 'nem' },
+        params: { region: 'pt' },
         query: this.query
       })
     }

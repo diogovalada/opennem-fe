@@ -25,7 +25,7 @@ import { mapGetters } from 'vuex'
 import _cloneDeep from 'lodash.clonedeep'
 import _includes from 'lodash.includes'
 
-import { GROUP_DETAILED } from '@/constants/energy-fuel-techs'
+import { GROUP_DEFAULT } from '@/constants/energy-fuel-techs'
 
 import SummaryTable from '@/components/SummaryTable'
 export default {
@@ -73,7 +73,7 @@ export default {
         : []
     },
     property() {
-      return this.fuelTechGroupName === GROUP_DETAILED ? 'fuelTech' : 'group'
+      return this.fuelTechGroupName === GROUP_DEFAULT ? 'fuelTech' : 'group'
     }
   }
 }

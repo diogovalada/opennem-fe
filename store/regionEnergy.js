@@ -226,7 +226,9 @@ export const mutations = {
     state.currentDomainCapacity = _cloneDeep(currentDomainCapacity)
   },
   currentDomainCurtailment(state, currentDomainCurtailment) {
-    state.currentDomainCurtailment = _cloneDeep(currentDomainCurtailment)
+    state.currentDomainCurtailment = currentDomainCurtailment
+      ? _cloneDeep(currentDomainCurtailment)
+      : []
   },
   summary(state, summary) {
     state.summary = _cloneDeep(summary)
@@ -915,18 +917,20 @@ export const actions = {
 
   doUpdateDatasetByInterval({ state, commit }, { range, interval }) {
     console.log('doUpdateDatasetByInterval', range, interval)
-    // Ignore if data is still being fetched.
-    if (!state.isFetching) {
+    const datasetFlat = state.datasetFlat || []
 
-      let filtered = state.datasetFlat
+    // Ignore if data is still being fetched (or not loaded yet).
+    if (!state.isFetching && datasetFlat.length > 0) {
+
+      let filtered = datasetFlat
 
       if (!state.isEnergyType)  {
         const rangeVal = parseInt(range)
-        const lastDate = state.datasetFlat[state.datasetFlat.length - 1].date
+        const lastDate = datasetFlat[datasetFlat.length - 1].date
         const until = subDays(lastDate, rangeVal)
         until.setUTCHours(0, 0, 0, 0)
 
-        filtered = state.datasetFlat.filter(
+        filtered = datasetFlat.filter(
           (d) => d.time >= until.getTime()
         )
       }

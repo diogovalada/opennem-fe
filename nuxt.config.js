@@ -23,9 +23,7 @@ module.exports = {
     API_KEY: process.env.API_KEY,
     API_BASE_URL: process.env.API_BASE_URL,
     mapboxToken: process.env.MAPBOX_TOKEN || '',
-    DATA_BASE_URL: useDev
-      ? 'https://data.dev.openelectricity.org.au/'
-      : process.env.DATA_BASE_URL
+    DATA_BASE_URL: process.env.DATA_BASE_URL || '/api'
   },
 
   server: {
@@ -290,7 +288,11 @@ module.exports = {
 
   proxy: {
     '/api': {
-      target: process.env.API_BASE_URL || 'https://api.openelectricity.org.au',
+      target:
+        process.env.API_BASE_URL ||
+        (process.env.NODE_ENV === 'development'
+          ? 'http://127.0.0.1:8000'
+          : 'https://api.openelectricity.org.au'),
       pathRewrite: {
         '^/api': '/'
       }

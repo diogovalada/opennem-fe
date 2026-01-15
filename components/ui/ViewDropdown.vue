@@ -88,7 +88,7 @@ export default {
   methods: {
     appendQuery(id) {
       if (id === 'compare') return '?range=all-12-mth-rolling&interval=1M&metric=renewablesProportion'
-      if (id === 'energy') return '?range=7d&interval=30m&view=discrete-time'
+      if (id === 'energy') return '?range=7d&interval=1h&view=discrete-time'
       if (id === 'emissions') return '??interval=Year&projections=false&history=false'
       if (id === 'capacity') return '?range=all&interval=1M'
       return ''

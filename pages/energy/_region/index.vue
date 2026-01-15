@@ -98,7 +98,7 @@ import {
   isValidRegion,
   getEnergyRegionLabel
 } from '@/constants/energy-regions.js'
-import * as FT from '@/constants/energy-fuel-techs/group-detailed.js'
+import * as FT from '@/constants/energy-fuel-techs/group-psr.js'
 import VisSection from '@/components/Energy/VisSection.vue'
 import SummarySection from '@/components/Energy/SummarySection.vue'
 import Divider from '@/components/Divider.vue'
@@ -270,7 +270,7 @@ export default {
     },
 
     shownNetRenewablesLine() {
-      const isFuelTechProperty = this.queryGroup === 'Detailed'
+      const isFuelTechProperty = this.queryGroup === FT.GROUP_LABEL
       const prop = isFuelTechProperty ? 'fuelTech' : 'nameFuelTech'
       const shown = this.currentDomainCurtailment.filter(
         (d) => !_includes(this.hiddenFuelTechs, d[this.property])).map((d) => d[prop]
@@ -290,7 +290,7 @@ export default {
       if (this.queryHide) {
         const show = this.queryShow ? this.queryShow.split(',') : []
         const hide = this.queryHide.split(',')
-        const isFuelTechProperty = this.queryGroup === 'Detailed'
+        const isFuelTechProperty = this.queryGroup === FT.GROUP_LABEL
 
         const hiddenPowerEnergy = val.filter((d) => _includes(hide, isFuelTechProperty ? d.fuelTech : d.nameFuelTech))
         const hiddenCurtailment = this.currentDomainCurtailment.filter((d) => !_includes(show, isFuelTechProperty ? d.fuelTech : d.nameFuelTech))
@@ -303,7 +303,7 @@ export default {
     currentDomainCurtailment(val) {
       const show = this.queryShow ? this.queryShow.split(',') : []
       const hide = this.queryHide ? this.queryHide.split(',') : []
-      const isFuelTechProperty = this.queryGroup === 'Detailed'
+      const isFuelTechProperty = this.queryGroup === FT.GROUP_LABEL
 
       const hiddenPowerEnergy = this.currentDomainPowerEnergy.filter((d) => _includes(hide, isFuelTechProperty ? d.fuelTech : d.nameFuelTech))
       const hiddenCurtailment = val.filter((d) => !_includes(show, isFuelTechProperty ? d.fuelTech : d.nameFuelTech))
@@ -439,7 +439,7 @@ export default {
       })
     } else {
       this.$router.push({
-        params: { region: 'nem' },
+        params: { region: 'pt' },
         query: this.query
       })
     }

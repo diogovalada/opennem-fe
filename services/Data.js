@@ -5,6 +5,7 @@ import * as rangesJs from '~/constants/ranges.js'
 import { INTERVAL_5MIN, INTERVAL_30MIN } from '~/constants/interval-filters.js'
 
 const version = 'v4'
+const ptVersion = 'v1'
 
 function getYearPaths(prepend, regionId, oneYearAgo) {
   const today = new Date()
@@ -27,8 +28,58 @@ function getYearPaths(prepend, regionId, oneYearAgo) {
   return paths
 }
 
+function getPtYearPaths(oneYearAgo) {
+  const today = new Date()
+  const thisFullYear = today.getFullYear()
+  const thisDate = today.getDate()
+  const thisMonth = today.getMonth()
+
+  const paths = []
+  const is1Jan = thisDate === 1 && thisMonth === 0
+
+  if (thisFullYear !== oneYearAgo) {
+    paths.push(`${ptVersion}/pt/energy/${oneYearAgo}.json`)
+  }
+
+  if (!is1Jan) {
+    paths.push(`${ptVersion}/pt/energy/${thisFullYear}.json`)
+  }
+
+  return paths
+}
 export default {
   getEnergyUrls(region, range, interval) {
+    if (region === 'pt') {
+      let urls = []
+      let oneYearAgo = null
+      switch (range) {
+        case rangesJs.RANGE_1D:
+        case rangesJs.RANGE_3D:
+        case rangesJs.RANGE_7D:
+          urls.push(`${ptVersion}/pt/power/7d.json`)
+          break
+        case rangesJs.RANGE_14D:
+        case rangesJs.RANGE_28D:
+          urls.push(`${ptVersion}/pt/power/30d.json`)
+          break
+        case rangesJs.RANGE_30D:
+          const thirtyDaysAgo = subDays(new Date(), 30)
+          oneYearAgo = thirtyDaysAgo.getFullYear()
+          urls = getPtYearPaths(oneYearAgo)
+          break
+        case rangesJs.RANGE_1Y:
+          oneYearAgo = subYears(new Date(), 1).getFullYear()
+          urls = getPtYearPaths(oneYearAgo)
+          break
+        case rangesJs.RANGE_ALL:
+        case rangesJs.RANGE_ALL_12MTH_ROLLING:
+          urls.push(`${ptVersion}/pt/energy/all.json`)
+          break
+        default:
+      }
+      return urls
+    }
+
     const prepend =
       region === 'wem' || region === 'nem' || region === 'au' ? '' : '/NEM'
     const regionId = region.toUpperCase()
@@ -72,6 +123,19 @@ export default {
   },
 
   getTimeOfDayUrls(region, range) {
+    if (region === 'pt') {
+      const urls = []
+      switch (range) {
+        case rangesJs.RANGE_7D:
+        case rangesJs.RANGE_14D:
+        case rangesJs.RANGE_28D:
+          urls.push(`${ptVersion}/pt/power/30d.json`)
+          break
+        default:
+      }
+      return urls
+    }
+
     const prepend =
       region === 'wem' || region === 'nem' || region === 'au' ? '' : '/NEM'
     const regionId = region.toUpperCase()
@@ -89,6 +153,9 @@ export default {
   },
 
   getYearDailyPath(region, year, usePaths) {
+    if (region === 'pt') {
+      return `${ptVersion}/pt/energy/${year}.json`
+    }
     const prepend =
       region === 'wem' || region === 'nem' || region === 'au' ? '' : '/NEM'
     const regionId = region.toUpperCase()
@@ -97,8 +164,9 @@ export default {
   },
 
   getRegionAllDailyPath(region) {
-    // const prepend =
-    //   region === 'wem' || region === 'nem' || region === 'au' ? '' : '/NEM'
+    if (region === 'pt') {
+      return `${ptVersion}/pt/energy/all.json`
+    }
     const regionId = region.toUpperCase()
     return `${version}/stats/au/${regionId}/daily.json`
   },

@@ -444,7 +444,7 @@ import differenceInMinutes from 'date-fns/differenceInMinutes'
 import { energy_sum } from '@opennem/energy-tools'
 
 import * as OPTIONS from '@/constants/chart-options.js'
-import { GROUP_DETAILED } from '@/constants/energy-fuel-techs'
+import { GROUP_DEFAULT } from '@/constants/energy-fuel-techs'
 import EventBus from '@/plugins/eventBus'
 import { getTimeLabel } from '@/data/transform/time-of-day' 
 import groupDataset from '@/data/parse/region-energy/group'
@@ -678,7 +678,7 @@ export default {
     },
 
     propRef() {
-      return this.fuelTechGroupName === GROUP_DETAILED ? 'fuelTech' : 'group'
+      return this.fuelTechGroupName === GROUP_DEFAULT ? 'fuelTech' : 'group'
     },
 
     percentContributionTo() {
@@ -778,7 +778,7 @@ export default {
       const totalRenewables = isSummary
         ? this.dataset.reduce((a, b) => a + b._totalRenewables, 0)
         : this.pointSummary._totalRenewables
-      const mins = this.interval === '30m' ? 30 : 5
+      const mins = this.intervalMins
 
       return this.isEnergy || !isSummary
         ? totalRenewables
@@ -832,8 +832,13 @@ export default {
 
     intervalMins() {
       const interval = this.interval
+      if (interval === '1h') {
+        return 60
+      }
       if (interval === '30m') {
         return 30
+      } else if (interval === '15m') {
+        return 15
       } else if (interval === 'Day') {
         return 60 * 24
       }
@@ -1066,7 +1071,7 @@ export default {
                 return d[ft.id]
               } else {
                 // calculate energy (GWh) += power * 5mins/60/1000
-                const mins = this.interval === '30m' ? 30 : 5
+                const mins = this.intervalMins
                 return (d[ft.id] * mins) / 60 / 1000
               }
             }
@@ -1650,7 +1655,7 @@ export default {
     handleCurtailmentFuelTechsHidden(hidden, hideOthers, onlyFt) {
       this.hiddenCurtailment = hidden
       if (hideOthers) {
-        if (this.fuelTechGroupName === GROUP_DETAILED) {
+        if (this.fuelTechGroupName === GROUP_DEFAULT) {
           const hiddenSources = Domain.getAllDomainObjs().filter(
             (d) => d.category === 'source'
           )
@@ -1671,7 +1676,7 @@ export default {
     handleSourceFuelTechsHidden(hidden, hideOthers, onlyFt) {
       this.hiddenSources = hidden
       if (hideOthers) {
-        if (this.fuelTechGroupName === GROUP_DETAILED) {
+        if (this.fuelTechGroupName === GROUP_DEFAULT) {
           const hiddenSources = Domain.getAllDomainObjs().filter(
             (d) => d.category === 'source' && d.fuelTech !== onlyFt.fuelTech
           )
@@ -1698,7 +1703,7 @@ export default {
     handleLoadFuelTechsHidden(hidden, hideOthers, onlyFt) {
       this.hiddenLoads = hidden
       if (hideOthers) {
-        if (this.fuelTechGroupName === GROUP_DETAILED) {
+        if (this.fuelTechGroupName === GROUP_DEFAULT) {
           const hiddenSources = Domain.getAllDomainObjs().filter(
             (d) => d.category === 'source'
           )
@@ -1748,7 +1753,7 @@ export default {
     },
 
     handleLineRowShiftClicked(lineDomain) {
-      if (this.fuelTechGroupName === GROUP_DETAILED) {
+      if (this.fuelTechGroupName === GROUP_DEFAULT) {
         const hiddenSources = Domain.getAllDomainObjs().filter(
           (d) => d.category === 'source'
         )

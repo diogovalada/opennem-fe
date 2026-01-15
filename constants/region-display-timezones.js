@@ -7,7 +7,8 @@ import {
   ENERGY_SA,
   ENERGY_TAS,
   ENERGY_VIC,
-  ENERGY_WEM
+  ENERGY_WEM,
+  ENERGY_PT
 } from '@/constants/energy-regions.js'
 
 const displayTzs = {}
@@ -19,5 +20,6 @@ displayTzs[ENERGY_SA] = getTimezoneOffset('Australia/Adelaide')
 displayTzs[ENERGY_TAS] = getTimezoneOffset('Australia/Hobart')
 displayTzs[ENERGY_VIC] = getTimezoneOffset('Australia/Melbourne')
 displayTzs[ENERGY_WEM] = getTimezoneOffset('+08:00')
+displayTzs[ENERGY_PT] = getTimezoneOffset('Europe/Lisbon')
 
 export default displayTzs

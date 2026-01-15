@@ -1,5 +1,7 @@
 export const INTERVAL_5MIN = '5m'
+export const INTERVAL_15MIN = '15m'
 export const INTERVAL_30MIN = '30m'
+export const INTERVAL_1HOUR = '1h'
 export const INTERVAL_DAY = 'Day'
 export const INTERVAL_WEEK = 'Week'
 export const INTERVAL_FINYEAR = 'Fin Year'

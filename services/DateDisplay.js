@@ -21,7 +21,9 @@ import {
 import {
   FILTER_NONE,
   INTERVAL_5MIN,
+  INTERVAL_15MIN,
   INTERVAL_30MIN,
+  INTERVAL_1HOUR,
   INTERVAL_DAY,
   INTERVAL_WEEK,
   INTERVAL_MONTH,
@@ -354,8 +356,12 @@ export default {
     switch (interval) {
       case INTERVAL_5MIN:
         return utcMinute.every(5).round(date)
+      case INTERVAL_15MIN:
+        return utcMinute.every(15).round(date)
       case INTERVAL_30MIN:
         return utcMinute.every(30).round(date)
+      case INTERVAL_1HOUR:
+        return utcMinute.every(60).round(date)
       case INTERVAL_DAY:
         return d3TimeDay.every(1).floor(date)
       case INTERVAL_WEEK:
@@ -392,8 +398,12 @@ export default {
     switch (interval) {
       case INTERVAL_5MIN:
         return utcMinute.every(5).round(date)
+      case INTERVAL_15MIN:
+        return utcMinute.every(15).round(date)
       case INTERVAL_30MIN:
         return utcMinute.every(30).round(date)
+      case INTERVAL_1HOUR:
+        return utcMinute.every(60).round(date)
       case INTERVAL_DAY:
         return isFloor
           ? d3TimeDay.every(1).floor(date)

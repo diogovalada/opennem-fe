@@ -399,8 +399,14 @@ export default {
           }
 
           if (!this.showPointSummary) {
-            // if 5m, divide by 12, else assume 30m, divide by 2 to convert energy /hr to power
-            const time = this.interval === '5m' ? 12 : 2
+            const mins = this.interval === '1h'
+              ? 60
+              : this.interval === '30m'
+                ? 30
+                : this.interval === '15m'
+                  ? 15
+                  : 5
+            const time = 60 / mins
             ei = ei / time / 1000
           }
         }

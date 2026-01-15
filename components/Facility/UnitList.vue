@@ -693,7 +693,13 @@ export default {
           return value
         } else {
           // calculate energy (MWh) += power * 5mins/60
-          const mins = this.interval === '30m' ? 30 : 5
+          const mins = this.interval === '1h'
+            ? 60
+            : this.interval === '30m'
+              ? 30
+              : this.interval === '15m'
+                ? 15
+                : 5
           return (value * mins) / 60
         }
       }

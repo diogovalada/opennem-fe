@@ -608,7 +608,7 @@ export default {
       const totalRenewables = isSummary
         ? this.dataset.reduce((a, b) => a + b._totalRenewables, 0)
         : this.pointSummary._totalRenewables
-      const mins = this.interval === '30m' ? 30 : 5
+      const mins = this.intervalMins
 
       return this.isEnergy || !isSummary
         ? totalRenewables
@@ -647,8 +647,13 @@ export default {
 
     intervalMins() {
       const interval = this.interval
+      if (interval === '1h') {
+        return 60
+      }
       if (interval === '30m') {
         return 30
+      } else if (interval === '15m') {
+        return 15
       } else if (interval === 'Day') {
         return 60 * 24
       }

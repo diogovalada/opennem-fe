@@ -128,8 +128,8 @@ import {
 import {
   INTERVAL_FILTERS,
   FILTER_NONE,
-  INTERVAL_5MIN,
-  INTERVAL_30MIN,
+  INTERVAL_15MIN,
+  INTERVAL_1HOUR,
   INTERVAL_MONTH,
   INTERVAL_SEASON,
   INTERVAL_QUARTER,
@@ -296,7 +296,7 @@ export default {
           range = RANGE_7D
         }
         if (interval === '') {
-          interval = INTERVAL_30MIN
+          interval = INTERVAL_1HOUR
         }
 
         this.updateQuery(range, interval, filter)
@@ -307,7 +307,7 @@ export default {
         this.updateQuery(range, interval, filter)
       } else if (!validRangeQuery && validIntervalQuery) {
         range = RANGE_7D
-        interval = INTERVAL_30MIN
+        interval = INTERVAL_1HOUR
 
         this.updateQuery(range, interval, filter)
       }
@@ -447,8 +447,8 @@ export default {
       this.$store.commit('regionEnergy/filteredDates', [])
       this.selectedFilter = FILTER_NONE
 
-      const is5mOr30m =
-        this.interval === INTERVAL_5MIN || this.interval === INTERVAL_30MIN
+      const is15mOr1h =
+        this.interval === INTERVAL_15MIN || this.interval === INTERVAL_1HOUR
 
       let interval = ''
       let isPower = false
@@ -456,7 +456,7 @@ export default {
         case '1D':
         case '3D':
         case '7D':
-          interval = is5mOr30m ? this.interval : '30m'
+          interval = is15mOr1h ? this.interval : INTERVAL_1HOUR
           isPower = true
           break
         case '30D':

@@ -1,4 +1,5 @@
 import * as FT from '@/constants/energy-fuel-techs/group-detailed.js'
+import * as PSR from '@/constants/energy-fuel-techs/group-psr.js'
 import * as CFT from '@/constants/curtailment-fuel-techs/group-detailed.js'
 import {
   PRICE,
@@ -13,18 +14,19 @@ import {
 const PRICE_COLOUR = '#e34a33'
 
 export function getFuelTechInOrder(data) {
+  const group = getFuelTechGroup(data)
   const fuelTechs = {}
-  FT.DEFAULT_FUEL_TECH_ORDER.forEach((ft) => {
+  group.DEFAULT_FUEL_TECH_ORDER.forEach((ft) => {
     const find = data.find((d) => d.fuel_tech === ft)
     if (find) {
       fuelTechs[ft] = find.id
     }
   })
-  return fuelTechs
+  return { ids: fuelTechs, group }
 }
 
-export function getFuelTechDomains(ids, type) {
-  return ids ? FT.getFuelTechObjs(ids, type).reverse() : []
+export function getFuelTechDomains(ids, type, group = FT) {
+  return ids ? group.getFuelTechObjs(ids, type).reverse() : []
 }
 
 export function getCurtailmentInOrder(data) {
@@ -42,7 +44,7 @@ export function getCurtailmentDomains(ids, type) {
   return ids ? CFT.getFuelTechObjs(ids, type).reverse() : []
 }
 
-export function getFuelTechWithTypeDomains(ids, type) {
+export function getFuelTechWithTypeDomains(ids, type, group = FT) {
   const mutateIds = {}
   Object.keys(ids).forEach((key) => {
     const split = ids[key].split('.')
@@ -50,7 +52,17 @@ export function getFuelTechWithTypeDomains(ids, type) {
     const newId = `${split.join('.')}.${type}`
     mutateIds[key] = newId
   })
-  return FT.getFuelTechObjs(mutateIds, type).reverse()
+  return group.getFuelTechObjs(mutateIds, type).reverse()
+}
+
+function isPsrFuelTech(value) {
+  return /^B\\d{2}$/.test(value || '')
+}
+
+export function getFuelTechGroup(data) {
+  if (!data) return FT
+  const hasPsr = data.some((d) => isPsrFuelTech(d.fuel_tech))
+  return hasPsr ? PSR : FT
 }
 
 export function getTemperatureDomains(data) {

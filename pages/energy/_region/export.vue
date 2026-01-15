@@ -59,7 +59,7 @@ import { utcFormat } from 'd3-time-format'
 import _includes from 'lodash.includes'
 
 import { getEnergyRegions } from '@/constants/energy-regions.js'
-import * as FT from '@/constants/energy-fuel-techs/group-detailed.js'
+import * as FT from '@/constants/energy-fuel-techs/group-psr.js'
 import domToImage from '~/services/DomToImage.js'
 import { lsGet, lsSet } from '@/services/LocalStorage'
 import VisSection from '@/components/Energy/Export/VisSection.vue'

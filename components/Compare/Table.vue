@@ -107,7 +107,7 @@ export default {
     },
     handleLinkClick(id) {
       this.$router.push({
-        path: `/energy/${id}/?range=7d&interval=30m`
+        path: `/energy/${id}/?range=7d&interval=1h`
       })
     },
 
