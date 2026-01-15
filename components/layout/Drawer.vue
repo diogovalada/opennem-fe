@@ -76,16 +76,18 @@
       <div 
         v-show="!isEmissionsView && !isCompareView" 
         class="menu">
-        <nuxt-link 
-          :to="`/${currentView}/au/`" 
-          class="menu-item">
-          All Regions
-          <span class="icon">
-            <i class="fal fa-chevron-right" />
-          </span>
-        </nuxt-link>
+        <template v-if="!portugalOnly">
+          <nuxt-link 
+            :to="`/${currentView}/au/`" 
+            class="menu-item">
+            All Regions
+            <span class="icon">
+              <i class="fal fa-chevron-right" />
+            </span>
+          </nuxt-link>
 
-        <hr class="dropdown-divider" >
+          <hr class="dropdown-divider" >
+        </template>
 
         <nuxt-link
           v-for="link in links"
@@ -123,7 +125,7 @@
 import { mapGetters } from 'vuex'
 
 import VIEWS from '~/constants/views.js'
-import { getEnergyRegions } from '@/constants/energy-regions.js'
+import { getEnergyRegions, PORTUGAL_ONLY } from '@/constants/energy-regions.js'
 import Logo from '~/components/ui/Logo'
 import ConsumptionGenerationToggle from '~/components/ui/ConsumptionGenerationToggle'
 import AppFooter from '~/components/layout/AppFooter'
@@ -156,6 +158,9 @@ export default {
       currentView: 'currentView',
       showFeatureToggle: 'app/showFeatureToggle',
     }),
+    portugalOnly() {
+      return PORTUGAL_ONLY
+    },
     regionId() {
       return this.$route.params.region
     },

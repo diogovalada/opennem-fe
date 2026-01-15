@@ -23,14 +23,16 @@
         v-show="dropdownActive" 
         class="dropdown-menu">
         <div class="dropdown-content">
-          <nuxt-link
-            :to="{ path: `/${currentView}/au/`, query: getQuery(currentView) }"
-            class="dropdown-item"
-            @click.native="handleClick"
-          >All Regions</nuxt-link
-          >
+          <template v-if="!portugalOnly">
+            <nuxt-link
+              :to="{ path: `/${currentView}/au/`, query: getQuery(currentView) }"
+              class="dropdown-item"
+              @click.native="handleClick"
+            >All Regions</nuxt-link
+            >
 
-          <hr class="dropdown-divider" >
+            <hr class="dropdown-divider" >
+          </template>
 
           <nuxt-link
             v-for="link in links"
@@ -60,8 +62,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
 import {
   getEnergyRegions,
-  ENERGY_NEM,
-  ENERGY_WEM
+  PORTUGAL_ONLY
 } from '@/constants/energy-regions.js'
 import regionDisplayTzs from '@/constants/region-display-timezones.js'
 
@@ -94,17 +95,18 @@ export default {
     },
     regionLabel() {
       return this.getRegionLabel(this.regionId)
+    },
+    portugalOnly() {
+      return PORTUGAL_ONLY
     }
   },
 
   watch: {
     regionId(val) {
-      const selectedTz =
-        val === ENERGY_WEM
-          ? regionDisplayTzs[ENERGY_WEM]
-          : regionDisplayTzs[ENERGY_NEM]
-
-      this.setDisplayTimeZone(selectedTz)
+      const selectedTz = regionDisplayTzs[val] || null
+      if (selectedTz !== null) {
+        this.setDisplayTimeZone(selectedTz)
+      }
       this.setRegionTimezoneString(this.getRegionTimezoneString(val))
     },
     currentView(view) {
@@ -113,11 +115,10 @@ export default {
   },
 
   created() {
-    const selectedTz =
-      this.regionId === ENERGY_WEM
-        ? regionDisplayTzs[ENERGY_WEM]
-        : regionDisplayTzs[ENERGY_NEM]
-    this.setDisplayTimeZone(selectedTz)
+    const selectedTz = regionDisplayTzs[this.regionId] || null
+    if (selectedTz !== null) {
+      this.setDisplayTimeZone(selectedTz)
+    }
     this.setRegionTimezoneString(this.getRegionTimezoneString(this.regionId))
     this.links = this.getLinks()
   },
