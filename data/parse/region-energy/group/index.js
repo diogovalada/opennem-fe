@@ -17,8 +17,8 @@ export default function ({
   Object.keys(groups).forEach((key) => {
     groups[key] = [
       ..._cloneDeep(groups[key]),
-      ..._cloneDeep(domainEmissionsGrouped[key]),
-      ..._cloneDeep(domainMarketValueGrouped[key])
+      ..._cloneDeep(domainEmissionsGrouped?.[key] || []),
+      ..._cloneDeep(domainMarketValueGrouped?.[key] || [])
     ]
   })
 
@@ -27,7 +27,7 @@ export default function ({
   if (domainCurtailmentGrouped) {
     Object.keys(curtailedGroups).forEach((key) => {
       curtailedGroups[key] = [
-        ..._cloneDeep(curtailedGroups[key])
+        ..._cloneDeep(curtailedGroups[key] || [])
       ]
     })
   }
@@ -38,6 +38,9 @@ export default function ({
         const groupDomains = groups[key]
 
         groupDomains.forEach((g) => {
+          if (!g || !Array.isArray(g.domainIds) || g.domainIds.length === 0) {
+            return
+          }
           let groupValue = 0,
             allNulls = true,
             groupPowerToEnergy = 0
@@ -65,6 +68,9 @@ export default function ({
         const groupDomains = curtailedGroups[key]
 
         groupDomains.forEach((g) => {
+          if (!g || !Array.isArray(g.domainIds) || g.domainIds.length === 0) {
+            return
+          }
           let groupValue = 0,
             allNulls = true,
             groupPowerToEnergy = 0

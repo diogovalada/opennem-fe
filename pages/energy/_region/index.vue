@@ -438,8 +438,8 @@ export default {
         dashboardView: this.dashboardView
       })
     } else {
-      this.$router.push({
-        params: { region: 'pt' },
+      this.$router.replace({
+        path: '/energy/pt/',
         query: this.query
       })
     }

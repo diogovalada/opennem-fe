@@ -56,7 +56,7 @@ export function getFuelTechWithTypeDomains(ids, type, group = FT) {
 }
 
 function isPsrFuelTech(value) {
-  return /^B\\d{2}$/.test(value || '')
+  return /^B\d{2}$/.test(value || '')
 }
 
 export function getFuelTechGroup(data) {
