@@ -3,6 +3,7 @@ A overview of this project is in `AGENTS - OVERVIEW.md`.
 ## Global rules
 
 - **Don't make changes until I explicitly say so.**
+- If I ask you to “normalize WorkTree”, I mean: make the repository’s working tree clean by staging and committing the current changes. Split into multiple commits when it reduces risk or makes review/merge easier (e.g. separate refactors from behavior changes), but avoid unnecessary churn.
 - This is a fork; keep changes minimal and avoid unnecessary churn to reduce future merge conflicts.
   - Prefer additive files over rewrites when possible.
   - Keep fork-only logic isolated and well documented.
